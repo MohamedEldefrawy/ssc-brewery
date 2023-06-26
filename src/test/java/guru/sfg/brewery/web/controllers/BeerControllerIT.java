@@ -31,8 +31,18 @@ class BeerControllerIT extends BaseIT {
 
     @SneakyThrows
     @Test
-    void findBeersWithHttpBasic() {
+    void findBeersWithHttpBasicWithADminUser() {
         mockMvc.perform(get("/beers/find").with(httpBasic("admin", "1234")))
+                .andExpect(status().isOk()).andExpect(view().name("beers/findBeers"))
+                .andExpect(model().attributeExists("beer"));
+        verifyZeroInteractions(beerRepository);
+
+    }
+
+    @SneakyThrows
+    @Test
+    void findBeersWithHttpBasicWithCustomerUser() {
+        mockMvc.perform(get("/beers/find").with(httpBasic("customer", "1234")))
                 .andExpect(status().isOk()).andExpect(view().name("beers/findBeers"))
                 .andExpect(model().attributeExists("beer"));
         verifyZeroInteractions(beerRepository);
