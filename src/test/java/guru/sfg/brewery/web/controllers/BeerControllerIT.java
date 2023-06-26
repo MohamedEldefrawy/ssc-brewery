@@ -54,4 +54,11 @@ class BeerControllerIT {
         verifyZeroInteractions(beerRepository);
 
     }
+
+    @SneakyThrows
+    @Test
+    void getIndexSlash() {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk());
+    }
 }
