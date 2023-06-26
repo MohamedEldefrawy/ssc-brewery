@@ -14,7 +14,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
                                 .antMatchers("/", "/webjars/**", "/resources/**").permitAll()
-                                .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll())
+                                .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
+                                .antMatchers(HttpMethod.GET,"/api/v1/beerUpc/**").permitAll())
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
