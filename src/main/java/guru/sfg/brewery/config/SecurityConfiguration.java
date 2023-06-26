@@ -1,14 +1,10 @@
 package guru.sfg.brewery.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -20,7 +16,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         expressionInterceptUrlRegistry
                                 .antMatchers("/", "/webjars/**", "/resources/**").permitAll()
                                 .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
-                                .antMatchers(HttpMethod.GET,"/api/v1/beerUpc/**").permitAll())
+                                .antMatchers(HttpMethod.GET, "/api/v1/beerUpc/**").permitAll())
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
@@ -28,11 +24,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .httpBasic();
     }
 
+//    @Override
+//    @Bean
+//    protected UserDetailsService userDetailsService() {
+//        UserDetails admin = User.withDefaultPasswordEncoder().username("admin").roles("ADMIN").password("1234").build();
+//        UserDetails customer = User.withDefaultPasswordEncoder().username("customer").roles("CUSTOMER").password("1234").build();
+//    return new InMemoryUserDetailsManager(admin,customer);
+//    }
+
     @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails admin = User.withDefaultPasswordEncoder().username("admin").roles("ADMIN").password("1234").build();
-        UserDetails customer = User.withDefaultPasswordEncoder().username("customer").roles("CUSTOMER").password("1234").build();
-    return new InMemoryUserDetailsManager(admin,customer);
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("admin").password("{noop}1234").roles("ADMIN");
+        auth.inMemoryAuthentication().withUser("customer").password("{noop}1234").roles("CUSTOMER");
     }
 }
