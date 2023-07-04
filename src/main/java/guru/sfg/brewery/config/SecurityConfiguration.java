@@ -1,7 +1,9 @@
 package guru.sfg.brewery.config;
 
+import guru.sfg.brewery.services.UserDetailService;
 import guru.sfg.brewery.web.security.CustomPasswordEncoder;
 import guru.sfg.brewery.web.security.RestHeaderAuthFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +17,10 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    UserDetailService userDetailService;
+
     public RestHeaderAuthFilter restHeaderAuthFilter(AuthenticationManager authenticationManager) {
         RestHeaderAuthFilter restHeaderAuthFilter = new RestHeaderAuthFilter(new AntPathRequestMatcher("/api/**"));
         restHeaderAuthFilter.setAuthenticationManager(authenticationManager);
@@ -25,12 +31,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(restHeaderAuthFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-
         http
                 .authorizeRequests(expressionInterceptUrlRegistry ->
                         expressionInterceptUrlRegistry
+                                .antMatchers("/h2-console/**").permitAll()
                                 .antMatchers("/", "/webjars/**", "/resources/**").permitAll()
-                                .antMatchers( "/beers/find","/beers*").permitAll()
+                                .antMatchers("/beers/find", "/beers*").permitAll()
                                 .antMatchers(HttpMethod.GET, "/api/v1/beer/**").permitAll()
                                 .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").permitAll())
                 .authorizeRequests()
@@ -40,14 +46,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .httpBasic();
 
+        http.headers().frameOptions().sameOrigin();
+
     }
 
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password("{bcrypt}$2a$10$l/zJs2Mz/UDMxTxoHCrBiebKmlobzr2CIHs1zE.IA6BXSWRkVHCzK").roles("ADMIN");
-        auth.inMemoryAuthentication().withUser("customer").password("{ldap}{SSHA}FIssqgp+nDV56gFV+WiJ2iUuEU1G7sJb46umKQ==").roles("CUSTOMER");
-        auth.inMemoryAuthentication().withUser("user").password("{sha256}17cf776648dce8a2065ba5b6085901740a7f54939985bb887686c29050f19ad682cced7908ccfcd9").roles("CUSTOMER");
+        auth.userDetailsService(this.userDetailService).passwordEncoder(passwordEncoder());
     }
 
     @Bean

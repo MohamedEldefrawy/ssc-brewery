@@ -4,7 +4,6 @@ import guru.sfg.brewery.repositories.BeerRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -32,7 +31,7 @@ class BeerControllerIT extends BaseIT {
     @SneakyThrows
     @Test
     void findBeersWithHttpBasicWithADminUser() {
-        mockMvc.perform(get("/beers/find").with(httpBasic("admin", "1234")))
+        mockMvc.perform(get("/beers/find").with(httpBasic("spring", "1234")))
                 .andExpect(status().isOk()).andExpect(view().name("beers/findBeers"))
                 .andExpect(model().attributeExists("beer"));
         verifyZeroInteractions(beerRepository);
@@ -42,7 +41,7 @@ class BeerControllerIT extends BaseIT {
     @SneakyThrows
     @Test
     void findBeersWithHttpBasicWithCustomerUser() {
-        mockMvc.perform(get("/beers/find").with(httpBasic("customer", "1234")))
+        mockMvc.perform(get("/beers/find").with(httpBasic("scott", "1234")))
                 .andExpect(status().isOk()).andExpect(view().name("beers/findBeers"))
                 .andExpect(model().attributeExists("beer"));
         verifyZeroInteractions(beerRepository);

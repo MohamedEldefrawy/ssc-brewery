@@ -1,9 +1,16 @@
 package guru.sfg.brewery.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy =
@@ -11,13 +18,18 @@ public class User {
     private Long id;
     private String username;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @Singular
     @JoinTable(name = "user_authorities",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")})
-    private Set<Authorities> authorities;
+    private Set<Authority> authorities;
+    @Builder.Default
     private Boolean accountNonExpired = true;
+    @Builder.Default
     private Boolean accountNonLocked = true;
+    @Builder.Default
     private Boolean credentialsNonExpired = true;
+    @Builder.Default
     private Boolean enabled = true;
 }
