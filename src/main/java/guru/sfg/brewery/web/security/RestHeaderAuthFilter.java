@@ -67,7 +67,5 @@ public class RestHeaderAuthFilter extends AbstractAuthenticationProcessingFilter
         }
         SecurityContextHolder.getContext().setAuthentication(authResult);
     }
-
-
 }
 
