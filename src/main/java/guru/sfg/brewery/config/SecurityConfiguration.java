@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -37,7 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                 .antMatchers("/h2-console/**").permitAll()
                                 .antMatchers("/", "/webjars/**", "/resources/**").permitAll()
                                 .antMatchers("/beers/find", "/beers*").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name(), Roles.CUSTOMER.name())
-                                .antMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name(), Roles.CUSTOMER.name())
+//                                .antMatchers(HttpMethod.DELETE, "/api/v1/beer/**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name(), Roles.CUSTOMER.name())
                                 .mvcMatchers(HttpMethod.GET, "/api/v1/beerUpc/{upc}").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name(), Roles.CUSTOMER.name())
                                 .antMatchers(HttpMethod.GET, "/api/v1/beer/**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name(), Roles.CUSTOMER.name())
                                 .antMatchers("/api/v1/breweries/**").hasRole(Roles.CUSTOMER.name())

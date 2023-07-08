@@ -1,14 +1,10 @@
 package guru.sfg.brewery.web.controllers;
 
-import guru.sfg.brewery.domain.Beer;
 import guru.sfg.brewery.repositories.BeerRepository;
-import guru.sfg.brewery.web.model.BeerStyleEnum;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.Mock;
 import org.springframework.security.test.context.support.WithMockUser;
-
-import java.util.Random;
 
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -16,8 +12,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 class BeerControllerIT extends BaseIT {
-
-    @Autowired
+    @Mock
     BeerRepository beerRepository;
 
 
