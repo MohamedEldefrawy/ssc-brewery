@@ -42,6 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                                 .antMatchers(HttpMethod.GET, "/api/v1/beer/**").hasAnyRole(Roles.ADMIN.name(), Roles.USER.name(), Roles.CUSTOMER.name())
                                 .antMatchers("/api/v1/breweries/**").hasRole(Roles.CUSTOMER.name())
                                 .antMatchers("/breweries/**").hasRole(Roles.CUSTOMER.name())
+                                .antMatchers("/customers/**").hasAnyRole(Roles.ADMIN.name(), Roles.CUSTOMER.name())
                                 .mvcMatchers("/brewery/breweries").hasAnyRole(Roles.ADMIN.name(), Roles.CUSTOMER.name()))
                 .authorizeRequests()
                 .anyRequest().authenticated()
