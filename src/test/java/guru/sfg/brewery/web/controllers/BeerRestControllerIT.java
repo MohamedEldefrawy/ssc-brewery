@@ -38,7 +38,8 @@ class BeerRestControllerIT extends BaseIT {
     @SneakyThrows
     void testGetBeerById() {
         mockMvc.perform(get("/api/v1/beer/a3e60036-fe96-4768-a503-a7bb094bf9e1")
-                .header("Api-Key", "spring").header("Api-Secret", "1234")).andExpect(status().isOk());
+                        .header("Api-Key", "spring").header("Api-Secret", "1234"))
+                .andExpect(status().isOk());
     }
 
     @SneakyThrows

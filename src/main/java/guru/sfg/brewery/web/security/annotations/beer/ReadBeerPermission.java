@@ -6,6 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("hasAuthority('beer.get')")
+@PreAuthorize("hasAuthority('get.beer')")
 public @interface ReadBeerPermission {
 }

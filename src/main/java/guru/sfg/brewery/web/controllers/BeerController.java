@@ -21,11 +21,13 @@ package guru.sfg.brewery.web.controllers;
 import guru.sfg.brewery.domain.Beer;
 import guru.sfg.brewery.repositories.BeerInventoryRepository;
 import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.web.security.annotations.beer.CreateBeerPermission;
+import guru.sfg.brewery.web.security.annotations.beer.ReadBeerPermission;
+import guru.sfg.brewery.web.security.annotations.beer.UpdateBeerPermission;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,14 +52,14 @@ public class BeerController {
 
 
     @RequestMapping("/find")
-    @PreAuthorize("hasAnyAuthority('get.beer')")
+    @ReadBeerPermission
     public String findBeers(Model model) {
         model.addAttribute("beer", Beer.builder().build());
         return "beers/findBeers";
     }
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('get.beer')")
+    @ReadBeerPermission
     public String processFindFormReturnMany(Beer beer, BindingResult result, Model model) {
         // find beers by name
         //ToDO: Add Service
@@ -81,7 +83,7 @@ public class BeerController {
 
 
     @GetMapping("/{beerId}")
-    @PreAuthorize("hasAnyAuthority('get.beer')")
+    @ReadBeerPermission
     public ModelAndView showBeer(@PathVariable UUID beerId) {
         ModelAndView mav = new ModelAndView("beers/beerDetails");
         //ToDO: Add Service
@@ -90,15 +92,14 @@ public class BeerController {
     }
 
     @GetMapping("/new")
-    @PreAuthorize("hasAnyAuthority('create.beer')")
+    @CreateBeerPermission
     public String initCreationForm(Model model) {
         model.addAttribute("beer", Beer.builder().build());
         return "beers/createBeer";
     }
 
     @PostMapping("/new")
-    @PreAuthorize("hasAnyAuthority('create.beer')")
-
+    @CreateBeerPermission
     public String processCreationForm(Beer beer) {
         //ToDO: Add Service
         Beer newBeer = Beer.builder()
@@ -115,8 +116,7 @@ public class BeerController {
     }
 
     @GetMapping("/{beerId}/edit")
-    @PreAuthorize("hasAnyAuthority('update.beer')")
-
+    @UpdateBeerPermission
     public String initUpdateBeerForm(@PathVariable UUID beerId, Model model) {
         if (beerRepository.findById(beerId).isPresent())
             model.addAttribute("beer", beerRepository.findById(beerId).get());
@@ -124,8 +124,7 @@ public class BeerController {
     }
 
     @PostMapping("/{beerId}/edit")
-    @PreAuthorize("hasAnyAuthority('update.beer')")
-
+    @UpdateBeerPermission
     public String processUpdateForm(@Valid Beer beer, BindingResult result) {
         if (result.hasErrors()) {
             return "beers/createOrUpdateBeer";
