@@ -17,7 +17,7 @@ public class Authority {
             GenerationType.AUTO)
     private Long id;
     String permission;
-    @ManyToMany(mappedBy = "authorities")
+    @ManyToMany(mappedBy = "authorities", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     Set<Role> roles;
 
 
