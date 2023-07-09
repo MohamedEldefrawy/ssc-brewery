@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package guru.sfg.brewery.bootstrap;
+package guru.sfg.brewery.seeder;
 
 import guru.sfg.brewery.domain.*;
 import guru.sfg.brewery.repositories.*;
@@ -32,7 +32,7 @@ import java.util.UUID;
  */
 @RequiredArgsConstructor
 @Component
-public class DefaultBreweryLoader implements CommandLineRunner {
+public class BrewerySeeder implements CommandLineRunner {
 
     public static final String TASTING_ROOM = "Tasting Room";
     public static final String BEER_1_UPC = "0631234200036";
