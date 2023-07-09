@@ -1,7 +1,6 @@
 package guru.sfg.brewery.domain;
 
 import lombok.*;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -17,9 +16,9 @@ public class Authority {
     @GeneratedValue(strategy =
             GenerationType.AUTO)
     private Long id;
-    String role;
+    String permission;
     @ManyToMany(mappedBy = "authorities")
-    Set<User> users;
+    Set<Role> roles;
 
 
 }
