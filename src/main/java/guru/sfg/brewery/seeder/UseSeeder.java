@@ -51,8 +51,8 @@ public class UseSeeder implements CommandLineRunner {
         roleAdmin.setAuthorities(Set.of(createBeer, deleteBeer, updateBeer, getBeer,
                 createCustomer, updateCustomer, getCustomer, deleteCustomer,
                 createBrewery, getBrewery, updateBrewery, deleteBrewery));
-        roleUser.setAuthorities(Set.of(getBeer, getCustomer, getBrewery));
-        roleCustomer.setAuthorities(Set.of(getBeer, getCustomer, getBrewery));
+        roleUser.setAuthorities(Set.of(getBeer, getBrewery));
+        roleCustomer.setAuthorities(Set.of(getBeer, getBrewery, getCustomer));
 
         roleRepository.saveAll(List.of(roleAdmin, roleCustomer, roleUser));
 

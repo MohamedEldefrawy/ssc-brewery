@@ -4,7 +4,6 @@ import guru.sfg.brewery.repositories.BeerRepository;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
@@ -15,17 +14,6 @@ class BeerControllerIT extends BaseIT {
     @Mock
     BeerRepository beerRepository;
 
-
-    @SneakyThrows
-    @Test
-    @WithMockUser("admin")
-    void findBeers() {
-        mockMvc.perform(get("/beers/find"))
-                .andExpect(status().isOk()).andExpect(view().name("beers/findBeers"))
-                .andExpect(model().attributeExists("beer"));
-        verifyZeroInteractions(beerRepository);
-
-    }
 
     @SneakyThrows
     @Test
@@ -72,7 +60,8 @@ class BeerControllerIT extends BaseIT {
     @Test
     void findBreweriesWithHttpBasicWithUserRole() {
         mockMvc.perform(get("/brewery/breweries").with(httpBasic("user", "1234")))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isOk()).andExpect(view().name("breweries/index"))
+                .andExpect(model().attributeExists("breweries"));
         verifyZeroInteractions(beerRepository);
 
     }

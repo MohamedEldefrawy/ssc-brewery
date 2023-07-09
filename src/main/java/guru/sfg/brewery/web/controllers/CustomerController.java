@@ -42,6 +42,7 @@ public class CustomerController {
     //ToDO: Add service
     private final CustomerRepository customerRepository;
 
+    @PreAuthorize("hasAnyAuthority('get.customer')")
     @RequestMapping("/find")
     public String findCustomers(Model model) {
         model.addAttribute("customer", Customer.builder().build());
@@ -49,6 +50,7 @@ public class CustomerController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('get.customer')")
     public String processFindFormReturnMany(Customer customer, BindingResult result, Model model) {
         // find customers by name
         //ToDO: Add Service
@@ -69,6 +71,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
+    @PreAuthorize("hasAnyAuthority('get.customer')")
     public ModelAndView showCustomer(@PathVariable UUID customerId) {
         ModelAndView mav = new ModelAndView("customers/customerDetails");
         //ToDO: Add Service
@@ -77,13 +80,15 @@ public class CustomerController {
     }
 
     @GetMapping("/new")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyAuthority('create.customer')")
     public String initCreationForm(Model model) {
         model.addAttribute("customer", Customer.builder().build());
         return "customers/createCustomer";
     }
 
     @PostMapping("/new")
+    @PreAuthorize("hasAnyAuthority('create.customer')")
+
     public String processCreationForm(Customer customer) {
         //ToDO: Add Service
         Customer newCustomer = Customer.builder()
@@ -95,6 +100,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}/edit")
+    @PreAuthorize("hasAnyAuthority('update.customer')")
     public String initUpdateCustomerForm(@PathVariable UUID customerId, Model model) {
         if (customerRepository.findById(customerId).isPresent())
             model.addAttribute("customer", customerRepository.findById(customerId).get());
@@ -102,6 +108,7 @@ public class CustomerController {
     }
 
     @PostMapping("/{beerId}/edit")
+    @PreAuthorize("hasAnyAuthority('update.customer')")
     public String processUpdationForm(@Valid Customer customer, BindingResult result) {
         if (result.hasErrors()) {
             return "beers/createOrUpdateCustomer";
