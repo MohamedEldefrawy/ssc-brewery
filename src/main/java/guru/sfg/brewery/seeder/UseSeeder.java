@@ -42,6 +42,17 @@ public class UseSeeder implements CommandLineRunner {
         Authority updateCustomer = this.authorityRepository.saveAndFlush(Authority.builder().permission("update.customer").build());
         Authority getCustomer = this.authorityRepository.saveAndFlush(Authority.builder().permission("get.customer").build());
 
+        // Order Authorities
+        Authority createOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("create.order").build());
+        Authority deleteOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("delete.order").build());
+        Authority updateOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("update.order").build());
+        Authority getOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("get.order").build());
+
+        // Customer Order Authorities
+        Authority customerCreateOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("customer.create.order").build());
+        Authority customerDeleteOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("customer.delete.order").build());
+        Authority customerUpdateOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("customer.update.order").build());
+        Authority customerGetOrder = this.authorityRepository.saveAndFlush(Authority.builder().permission("customer.get.order").build());
 
         // Create roles
         Role roleAdmin = this.roleRepository.save(Role.builder().name("ROLE_ADMIN").build());
@@ -50,9 +61,9 @@ public class UseSeeder implements CommandLineRunner {
 
         roleAdmin.setAuthorities(Set.of(createBeer, deleteBeer, updateBeer, getBeer,
                 createCustomer, updateCustomer, getCustomer, deleteCustomer,
-                createBrewery, getBrewery, updateBrewery, deleteBrewery));
+                createBrewery, getBrewery, updateBrewery, deleteBrewery, createOrder, getOrder, updateOrder, deleteOrder));
         roleUser.setAuthorities(Set.of(getBeer, getBrewery));
-        roleCustomer.setAuthorities(Set.of(getBeer, getBrewery, getCustomer));
+        roleCustomer.setAuthorities(Set.of(getBeer, getBrewery, getCustomer, customerCreateOrder, customerGetOrder, customerUpdateOrder, customerDeleteOrder));
 
         roleRepository.saveAll(List.of(roleAdmin, roleCustomer, roleUser));
 
