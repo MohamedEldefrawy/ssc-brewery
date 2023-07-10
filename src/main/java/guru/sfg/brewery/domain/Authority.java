@@ -3,6 +3,7 @@ package guru.sfg.brewery.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
@@ -11,7 +12,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class Authority {
+public class Authority implements Serializable {
     @Id
     @GeneratedValue(strategy =
             GenerationType.AUTO)
