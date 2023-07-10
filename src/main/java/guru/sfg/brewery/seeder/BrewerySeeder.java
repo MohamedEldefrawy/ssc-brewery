@@ -22,6 +22,7 @@ import guru.sfg.brewery.web.model.BeerStyleEnum;
 import guru.sfg.brewery.web.security.CustomPasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +50,9 @@ public class BrewerySeeder implements CommandLineRunner {
     public static final String BEER_1_UPC = "0631234200036";
     public static final String BEER_2_UPC = "0631234300019";
     public static final String BEER_3_UPC = "0083783375213";
+
+    @Value("${raw.password}")
+    private String rawPassword;
 
     private final BreweryRepository breweryRepository;
     private final BeerRepository beerRepository;
@@ -88,17 +92,17 @@ public class BrewerySeeder implements CommandLineRunner {
 
         //create users
         userRepository.save(User.builder().username(STPETE_USER)
-                .password(CustomPasswordEncoder.createDelegatingPasswordEncoder().encode("password"))
+                .password(CustomPasswordEncoder.createDelegatingPasswordEncoder().encode(rawPassword))
                 .customer(stPeteCustomer)
                 .role(customerRole).build());
 
         userRepository.save(User.builder().username(DUNEDIN_USER)
-                .password(CustomPasswordEncoder.createDelegatingPasswordEncoder().encode("password"))
+                .password(CustomPasswordEncoder.createDelegatingPasswordEncoder().encode(rawPassword))
                 .customer(dunedinCustomer)
                 .role(customerRole).build());
 
         userRepository.save(User.builder().username(KEYWEST_USER)
-                .password(CustomPasswordEncoder.createDelegatingPasswordEncoder().encode("password"))
+                .password(CustomPasswordEncoder.createDelegatingPasswordEncoder().encode(rawPassword))
                 .customer(keyWestCustomer)
                 .role(customerRole).build());
 
@@ -110,8 +114,8 @@ public class BrewerySeeder implements CommandLineRunner {
         log.debug("Orders Loaded: " + beerOrderRepository.count());
     }
 
-    private BeerOrder createOrder(Customer customer) {
-        return beerOrderRepository.save(BeerOrder.builder()
+    private void createOrder(Customer customer) {
+        beerOrderRepository.save(BeerOrder.builder()
                 .customer(customer)
                 .orderStatus(OrderStatusEnum.NEW)
                 .beerOrderLines(Set.of(BeerOrderLine.builder()
