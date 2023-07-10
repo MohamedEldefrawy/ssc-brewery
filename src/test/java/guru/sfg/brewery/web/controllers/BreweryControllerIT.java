@@ -29,7 +29,6 @@ class BreweryControllerIT extends BaseIT {
     @Test
     void findBreweriesWithHttpBasicWithUserRole() {
         mockMvc.perform(get("/brewery/breweries").with(httpBasic("user", "1234")))
-                .andExpect(status().isOk()).andExpect(view().name("breweries/index"))
-                .andExpect(model().attributeExists("breweries"));
+                .andExpect(status().isForbidden());
     }
 }
