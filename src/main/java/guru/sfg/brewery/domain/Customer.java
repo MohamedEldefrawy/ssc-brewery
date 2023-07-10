@@ -54,4 +54,7 @@ public class Customer extends BaseEntity {
     @OneToMany(mappedBy = "customer")
     private Set<BeerOrder> beerOrders;
 
+    @OneToMany(fetch = javax.persistence.FetchType.EAGER, mappedBy = "customer", cascade = javax.persistence.CascadeType.ALL)
+    private Set<User> users;
+
 }

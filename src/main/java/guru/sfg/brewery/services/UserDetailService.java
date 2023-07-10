@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Slf4j
 public class UserDetailService implements UserDetailsService {
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
