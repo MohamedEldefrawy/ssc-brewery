@@ -19,7 +19,7 @@ public class Authority implements Serializable {
     private Long id;
     String permission;
     @ManyToMany(mappedBy = "authorities", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    Set<Role> roles;
+    private Set<Role> roles;
 
 
 }
