@@ -5,6 +5,7 @@ import guru.sfg.brewery.web.model.BeerOrderDto;
 import guru.sfg.brewery.web.model.BeerOrderPagedList;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class BeerOrderController {
     }
 
     @GetMapping("orders")
+    @PreAuthorize("{hasAuthority('order.read') OR hasAuthority('customer.order.read') AND @beerOrderAuthManager.customerIdMatcher(authentication,#customerId)}")
     public BeerOrderPagedList listOrders(@PathVariable("customerId") UUID customerId,
                                          @RequestParam(value = "pageNumber", required = false) Integer pageNumber,
                                          @RequestParam(value = "pageSize", required = false) Integer pageSize) {
@@ -39,18 +41,21 @@ public class BeerOrderController {
     }
 
     @PostMapping("orders")
+    @PreAuthorize("{hasAuthority('order.create') OR hasAuthority('customer.order.create') AND @beerOrderAuthManager.customerIdMatcher(authentication,#customerId)}")
     @ResponseStatus(HttpStatus.CREATED)
     public BeerOrderDto placeOrder(@PathVariable("customerId") UUID customerId, @RequestBody BeerOrderDto beerOrderDto) {
         return beerOrderService.placeOrder(customerId, beerOrderDto);
     }
 
     @GetMapping("orders/{orderId}")
+    @PreAuthorize("{hasAuthority('order.read') OR hasAuthority('customer.order.read') AND @beerOrderAuthManager.customerIdMatcher(authentication,#customerId)}")
     public BeerOrderDto getOrder(@PathVariable("customerId") UUID customerId, @PathVariable("orderId") UUID orderId) {
         return beerOrderService.getOrderById(customerId, orderId);
     }
 
     @PutMapping("/orders/{orderId}/pickup")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("{hasAuthority('order.update') OR hasAuthority('customer.order.update') AND @beerOrderAuthManager.customerIdMatcher(authentication,#customerId)}")
     public void pickupOrder(@PathVariable("customerId") UUID customerId, @PathVariable("orderId") UUID orderId) {
         beerOrderService.pickupOrder(customerId, orderId);
     }

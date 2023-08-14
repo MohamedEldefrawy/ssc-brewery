@@ -1,4 +1,4 @@
-package guru.sfg.brewery.web.security.authManager;
+package guru.sfg.brewery.web.security.authmanager;
 
 import guru.sfg.brewery.domain.User;
 import lombok.extern.slf4j.Slf4j;
