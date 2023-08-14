@@ -56,7 +56,9 @@ public class BeerOrderController {
     @GetMapping("orders/{orderId}")
     @ReadOrderPermission
     public BeerOrderDto getOrder(@AuthenticationPrincipal User user, @PathVariable("orderId") UUID orderId) {
+        if (user.getCustomer()  != null)
             return beerOrderService.getOrderById(user.getCustomer().getId(), orderId);
+        return beerOrderService.getOrderById(orderId);
     }
 
     @PutMapping("/orders/{orderId}/pickup")

@@ -30,8 +30,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -131,6 +133,14 @@ public class BeerOrderServiceImpl implements BeerOrderService {
         beerOrderRepository.save(beerOrder);
     }
 
+    @Override
+    public BeerOrderDto getOrderById(UUID orderId) {
+        BeerOrderDto selectedBeerOrder = beerOrderMapper.beerOrderToDto(this.beerOrderRepository.findOneById(orderId));
+        if (selectedBeerOrder != null)
+            return beerOrderMapper.beerOrderToDto(this.beerOrderRepository.findOneById(orderId));
+        else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beer Order Not Found");
+    }
+
     private BeerOrder getOrder(UUID customerId, UUID orderId) {
         Optional<Customer> customerOptional = customerRepository.findById(customerId);
 
@@ -145,8 +155,8 @@ public class BeerOrderServiceImpl implements BeerOrderService {
                     return beerOrder;
                 }
             }
-            throw new RuntimeException("Beer Order Not Found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beer Order Not Found");
         }
-        throw new RuntimeException("Customer Not Found");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer Not Found");
     }
 }
