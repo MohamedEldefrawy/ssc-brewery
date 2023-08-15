@@ -67,6 +67,9 @@ public class BeerOrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @UpdateOrderPermission
     public void pickupOrder(@AuthenticationPrincipal User user, @PathVariable("orderId") UUID orderId) {
-        beerOrderService.pickupOrder(user.getCustomer().getId(), orderId);
+        if (user.getCustomer() != null)
+            beerOrderService.pickupOrder(user.getCustomer().getId(), orderId);
+        else
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer id should be sent");
     }
 }
