@@ -7,6 +7,8 @@
 
 <form th:object="${beer}" th:action="@{/beers}" method="get"
       class="form-horizontal" id="search-owner-form">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
     <div class="form-group">
         <div class="control-group" id="lastNameGroup">
             <label class="col-sm-2 control-label">Beer name </label>

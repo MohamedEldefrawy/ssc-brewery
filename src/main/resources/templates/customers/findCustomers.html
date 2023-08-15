@@ -7,12 +7,14 @@
 
 <form th:object="${customer}" th:action="@{/customers}" method="get"
       class="form-horizontal" id="search-owner-form">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+
     <divmvn clean package class="form-group">
         <div class="control-group" id="lastNameGroup">
             <label class="col-sm-2 control-label">Customer name </label>
             <div class="col-sm-10">
                 <input class="form-control" th:field="*{customerName}" size="30"
-                       maxlength="80" /> <span class="help-inline"><div
+                       maxlength="80"/> <span class="help-inline"><div
                     th:if="${#fields.hasAnyErrors()}">
               <p th:each="err : ${#fields.allErrors()}" th:text="${err}">Error</p>
             </div></span>
@@ -22,13 +24,14 @@
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="submit" class="btn btn-default">Find
-                Customer</button>
+                Customer
+            </button>
         </div>
     </div>
 
 </form>
 
-<br />
+<br/>
 <a class="btn btn-default" th:href="@{/customers/new}">Register Customer</a>
 
 </body>
