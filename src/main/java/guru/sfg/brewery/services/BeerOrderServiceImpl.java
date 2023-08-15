@@ -116,8 +116,7 @@ public class BeerOrderServiceImpl implements BeerOrderService {
 
             return beerOrderMapper.beerOrderToDto(savedBeerOrder);
         }
-        //todo add exception type
-        throw new RuntimeException("Customer Not Found");
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Customer Not Found");
     }
 
     @Override
@@ -137,8 +136,23 @@ public class BeerOrderServiceImpl implements BeerOrderService {
     public BeerOrderDto getOrderById(UUID orderId) {
         BeerOrderDto selectedBeerOrder = beerOrderMapper.beerOrderToDto(this.beerOrderRepository.findOneById(orderId));
         if (selectedBeerOrder != null)
-            return beerOrderMapper.beerOrderToDto(this.beerOrderRepository.findOneById(orderId));
+            return selectedBeerOrder;
         else throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Beer Order Not Found");
+    }
+
+    @Override
+    public BeerOrderDto placeOrder(Long id, BeerOrderDto beerOrderDto) {
+        log.debug(String.format("Admin no ${1} order: ", id));
+        BeerOrder beerOrder = beerOrderMapper.dtoToBeerOrder(beerOrderDto);
+        beerOrder.setId(null); //should not be set by outside client
+        beerOrder.setCustomer(null);
+        beerOrder.setOrderStatus(OrderStatusEnum.NEW);
+        beerOrder.getBeerOrderLines().forEach(line -> line.setBeerOrder(beerOrder));
+        BeerOrder savedBeerOrder = beerOrderRepository.saveAndFlush(beerOrder);
+
+        log.debug("Saved Beer Order: " + beerOrder.getId());
+
+        return beerOrderMapper.beerOrderToDto(savedBeerOrder);
     }
 
     private BeerOrder getOrder(UUID customerId, UUID orderId) {

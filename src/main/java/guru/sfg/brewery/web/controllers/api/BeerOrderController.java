@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.UUID;
 
@@ -50,13 +51,14 @@ public class BeerOrderController {
     public BeerOrderDto placeOrder(@AuthenticationPrincipal User user, @RequestBody BeerOrderDto beerOrderDto) {
         if (user.getCustomer() != null)
             return beerOrderService.placeOrder(user.getCustomer().getId(), beerOrderDto);
-        return beerOrderService.placeOrder(beerOrderDto);
+        else
+            return beerOrderService.placeOrder(user.getId(), beerOrderDto);
     }
 
     @GetMapping("orders/{orderId}")
     @ReadOrderPermission
     public BeerOrderDto getOrder(@AuthenticationPrincipal User user, @PathVariable("orderId") UUID orderId) {
-        if (user.getCustomer()  != null)
+        if (user.getCustomer() != null)
             return beerOrderService.getOrderById(user.getCustomer().getId(), orderId);
         return beerOrderService.getOrderById(orderId);
     }
@@ -65,6 +67,6 @@ public class BeerOrderController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @UpdateOrderPermission
     public void pickupOrder(@AuthenticationPrincipal User user, @PathVariable("orderId") UUID orderId) {
-            beerOrderService.pickupOrder(user.getCustomer().getId(), orderId);
+        beerOrderService.pickupOrder(user.getCustomer().getId(), orderId);
     }
 }

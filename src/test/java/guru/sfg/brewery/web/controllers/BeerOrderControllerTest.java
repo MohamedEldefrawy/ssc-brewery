@@ -73,7 +73,7 @@ class BeerOrderControllerTest extends BaseIT {
                 .andExpect(status().isUnauthorized());
     }
 
-    @WithUserDetails("spring")
+    @WithUserDetails(BrewerySeeder.ADMIN_USER)
     @Test
     void createOrderUserAdmin() throws Exception {
         BeerOrderDto beerOrderDto = buildOrderDto(stPeteCustomer, loadedBeers.get(0).getId());
@@ -118,7 +118,7 @@ class BeerOrderControllerTest extends BaseIT {
                 .andExpect(status().isUnauthorized());
     }
 
-    @WithUserDetails(value = "spring")
+    @WithUserDetails(BrewerySeeder.ADMIN_USER)
     @Test
     void listOrdersAdminAuth() throws Exception {
         mockMvc.perform(get(API_ROOT + "/orders"))
@@ -132,7 +132,7 @@ class BeerOrderControllerTest extends BaseIT {
                 .andExpect(status().isOk());
     }
 
-    @WithUserDetails(value = BrewerySeeder.DUNEDIN_USER)
+    @WithUserDetails(value = BrewerySeeder.KEYWEST_USER)
     @Test
     void listOrdersCustomerNOTAuth() throws Exception {
         mockMvc.perform(get(API_ROOT + "/orders"))
@@ -155,7 +155,7 @@ class BeerOrderControllerTest extends BaseIT {
     }
 
     @Transactional
-    @WithUserDetails("spring")
+    @WithUserDetails(BrewerySeeder.ADMIN_USER)
     @Test
     void getByOrderIdADMIN() throws Exception {
         BeerOrder beerOrder = stPeteCustomer.getBeerOrders().stream().findFirst().orElseThrow();

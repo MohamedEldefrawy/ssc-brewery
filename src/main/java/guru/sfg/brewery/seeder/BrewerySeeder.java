@@ -19,9 +19,9 @@ package guru.sfg.brewery.seeder;
 import guru.sfg.brewery.domain.*;
 import guru.sfg.brewery.repositories.*;
 import guru.sfg.brewery.web.model.BeerStyleEnum;
-import guru.sfg.brewery.web.security.CustomPasswordEncoder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -47,7 +47,9 @@ public class BrewerySeeder implements CommandLineRunner {
     public static final String STPETE_USER = "stpete";
     public static final String DUNEDIN_USER = "dunedin";
     public static final String KEYWEST_USER = "keywest";
-
+    public static final String ADMIN_USER = "admin";
+    @Value("${raw.password}")
+    private String password;
     public static final String BEER_1_UPC = "0631234200036";
     public static final String BEER_2_UPC = "0631234300019";
     public static final String BEER_3_UPC = "0083783375213";
@@ -65,12 +67,14 @@ public class BrewerySeeder implements CommandLineRunner {
     public void run(String... args) {
         loadSecurityData();
         loadBreweryData();
-        loadTastingRoomData();
         loadCustomerData();
+        loadTastingRoomData();
     }
 
     private void loadCustomerData() {
         Role customerRole = roleRepository.findByName("CUSTOMER").orElseThrow();
+        Role userRole = roleRepository.findByName("USER").orElseThrow();
+        Role adminRole = roleRepository.findByName("ADMIN").orElseThrow();
 
         //create customers
         Customer stPeteCustomer = customerRepository.save(Customer.builder()
@@ -89,20 +93,28 @@ public class BrewerySeeder implements CommandLineRunner {
                 .build());
 
         //create users
-        User stPeteUser = userRepository.save(User.builder().username(STPETE_USER)
-                .password(createDelegatingPasswordEncoder().encode("password"))
+        userRepository.save(User.builder()
+                .username(ADMIN_USER)
+                .password(createDelegatingPasswordEncoder().encode(password))
+                .role(adminRole)
+                .customer(null)
+                .build());
+
+        userRepository.save(User.builder().username(STPETE_USER)
+                .password(createDelegatingPasswordEncoder().encode(password))
                 .customer(stPeteCustomer)
                 .role(customerRole).build());
 
-        User dunedinUser = userRepository.save(User.builder().username(DUNEDIN_USER)
-                .password(createDelegatingPasswordEncoder().encode("password"))
+        userRepository.save(User.builder().username(DUNEDIN_USER)
+                .password(createDelegatingPasswordEncoder().encode(password))
                 .customer(dunedinCustomer)
                 .role(customerRole).build());
 
-        User keywest = userRepository.save(User.builder().username(KEYWEST_USER)
-                .password(createDelegatingPasswordEncoder().encode("password"))
+        userRepository.save(User.builder().username(KEYWEST_USER)
+                .password(createDelegatingPasswordEncoder().encode(password))
                 .customer(keyWestCustomer)
-                .role(customerRole).build());
+                .role(userRole).build());
+        log.debug("Users Loaded: " + userRepository.count());
 
         //create orders
         createOrder(stPeteCustomer);
@@ -112,8 +124,8 @@ public class BrewerySeeder implements CommandLineRunner {
         log.debug("Orders Loaded: " + beerOrderRepository.count());
     }
 
-    private BeerOrder createOrder(Customer customer) {
-        return beerOrderRepository.save(BeerOrder.builder()
+    private void createOrder(Customer customer) {
+        beerOrderRepository.save(BeerOrder.builder()
                 .customer(customer)
                 .orderStatus(OrderStatusEnum.NEW)
                 .beerOrderLines(Set.of(BeerOrderLine.builder()
@@ -132,16 +144,14 @@ public class BrewerySeeder implements CommandLineRunner {
 
         customerRepository.save(tastingRoom);
 
-        beerRepository.findAll().forEach(beer -> {
-            beerOrderRepository.save(BeerOrder.builder()
-                    .customer(tastingRoom)
-                    .orderStatus(OrderStatusEnum.NEW)
-                    .beerOrderLines(Set.of(BeerOrderLine.builder()
-                            .beer(beer)
-                            .orderQuantity(2)
-                            .build()))
-                    .build());
-        });
+        beerRepository.findAll().forEach(beer -> beerOrderRepository.save(BeerOrder.builder()
+                .customer(tastingRoom)
+                .orderStatus(OrderStatusEnum.NEW)
+                .beerOrderLines(Set.of(BeerOrderLine.builder()
+                        .beer(beer)
+                        .orderQuantity(2)
+                        .build()))
+                .build()));
     }
 
     private void loadBreweryData() {
@@ -240,24 +250,5 @@ public class BrewerySeeder implements CommandLineRunner {
 
         roleRepository.saveAll(Arrays.asList(adminRole, customerRole, userRole));
 
-        userRepository.save(User.builder()
-                .username("spring")
-                .password(createDelegatingPasswordEncoder().encode("guru"))
-                .role(adminRole)
-                .build());
-
-        userRepository.save(User.builder()
-                .username("user")
-                .password(createDelegatingPasswordEncoder().encode("password"))
-                .role(userRole)
-                .build());
-
-        userRepository.save(User.builder()
-                .username("scott")
-                .password(createDelegatingPasswordEncoder().encode("tiger"))
-                .role(customerRole)
-                .build());
-
-        log.debug("Users Loaded: " + userRepository.count());
     }
 }

@@ -37,4 +37,6 @@ public interface BeerOrderService {
     void pickupOrder(UUID customerId, UUID orderId);
 
     BeerOrderDto getOrderById(UUID orderId);
+
+    BeerOrderDto placeOrder(Long id, BeerOrderDto beerOrderDto);
 }
