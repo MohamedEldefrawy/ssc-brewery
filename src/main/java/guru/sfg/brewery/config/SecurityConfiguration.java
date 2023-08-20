@@ -21,9 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests(expressionInterceptUrlRegistry ->
-                        expressionInterceptUrlRegistry
-                                .antMatchers("/h2-console/**").permitAll()
+                .authorizeRequests(authorize ->
+                        authorize.antMatchers("/h2-console/**").permitAll()
                                 .antMatchers("/", "/webjars/**", "/resources/**").permitAll())
                 .authorizeRequests()
                 .anyRequest().authenticated()
