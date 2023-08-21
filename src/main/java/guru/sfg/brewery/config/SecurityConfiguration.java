@@ -1,7 +1,10 @@
 package guru.sfg.brewery.config;
 
+import guru.sfg.brewery.services.UserDetailService;
 import guru.sfg.brewery.web.security.CustomPasswordEncoder;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -11,8 +14,12 @@ import org.springframework.security.data.repository.query.SecurityEvaluationCont
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
+@RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+    private final UserDetailService userDetailService;
+
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
         return new SecurityEvaluationContextExtension();
@@ -36,8 +43,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .logout(httpSecurityLogoutConfigurer -> httpSecurityLogoutConfigurer
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/?logout").permitAll())
                 .httpBasic().and()
-                .csrf().ignoringAntMatchers("/h2-console/**", "/api/**").and().httpBasic();
-
+                .csrf().ignoringAntMatchers("/h2-console/**", "/api/**").and().httpBasic()
+                .and().rememberMe().key("rememberMe").userDetailsService(userDetailService);
         http.headers().frameOptions().sameOrigin();
     }
 
