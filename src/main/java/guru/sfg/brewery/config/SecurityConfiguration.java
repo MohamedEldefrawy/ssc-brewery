@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @EnableWebSecurity
@@ -19,6 +20,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailService userDetailService;
+    private final PersistentTokenRepository persistentTokenRepository;
 
     @Bean
     public SecurityEvaluationContextExtension securityEvaluationContextExtension() {
@@ -44,7 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/?logout").permitAll())
                 .httpBasic().and()
                 .csrf().ignoringAntMatchers("/h2-console/**", "/api/**").and().httpBasic()
-                .and().rememberMe().key("rememberMe").userDetailsService(userDetailService);
+                .and().rememberMe().tokenRepository(persistentTokenRepository).userDetailsService(userDetailService);
+//                .and().rememberMe().key("rememberMe").userDetailsService(userDetailService);
         http.headers().frameOptions().sameOrigin();
     }
 
