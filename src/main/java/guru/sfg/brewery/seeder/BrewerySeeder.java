@@ -17,6 +17,8 @@
 package guru.sfg.brewery.seeder;
 
 import guru.sfg.brewery.domain.*;
+import guru.sfg.brewery.domain.security.Authority;
+import guru.sfg.brewery.domain.security.Role;
 import guru.sfg.brewery.repositories.beer.BeerInventoryRepository;
 import guru.sfg.brewery.repositories.beer.BeerOrderRepository;
 import guru.sfg.brewery.repositories.beer.BeerRepository;

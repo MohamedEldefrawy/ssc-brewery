@@ -1,6 +1,6 @@
 package guru.sfg.brewery.listners;
 
-import guru.sfg.brewery.domain.LoginSuccess;
+import guru.sfg.brewery.domain.security.LoginSuccess;
 import guru.sfg.brewery.domain.User;
 import guru.sfg.brewery.repositories.security.LoginSuccessRepository;
 import lombok.RequiredArgsConstructor;

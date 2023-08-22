@@ -1,6 +1,6 @@
 package guru.sfg.brewery.repositories.security;
 
-import guru.sfg.brewery.domain.LoginFailure;
+import guru.sfg.brewery.domain.security.LoginFailure;
 import guru.sfg.brewery.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

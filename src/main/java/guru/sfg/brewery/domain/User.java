@@ -1,5 +1,6 @@
 package guru.sfg.brewery.domain;
 
+import guru.sfg.brewery.domain.security.Role;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;

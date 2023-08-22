@@ -1,6 +1,6 @@
 package guru.sfg.brewery.listners;
 
-import guru.sfg.brewery.domain.LoginFailure;
+import guru.sfg.brewery.domain.security.LoginFailure;
 import guru.sfg.brewery.domain.User;
 import guru.sfg.brewery.repositories.security.LoginFailureRepository;
 import guru.sfg.brewery.repositories.user.UserRepository;

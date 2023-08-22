@@ -1,6 +1,6 @@
-package guru.sfg.brewery.domain;
+package guru.sfg.brewery.domain.security;
 
-
+import guru.sfg.brewery.domain.User;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -17,11 +17,12 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @Entity
-public class LoginSuccess {
-
+public class LoginFailure {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+
+    private String username;
 
     @ManyToOne
     private User user;
