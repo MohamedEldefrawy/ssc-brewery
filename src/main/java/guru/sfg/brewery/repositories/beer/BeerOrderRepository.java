@@ -14,7 +14,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package guru.sfg.brewery.repositories;
+package guru.sfg.brewery.repositories.beer;
 
 import guru.sfg.brewery.domain.BeerOrder;
 import guru.sfg.brewery.domain.Customer;

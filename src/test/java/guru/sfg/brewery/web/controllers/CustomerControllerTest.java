@@ -18,7 +18,7 @@
 package guru.sfg.brewery.web.controllers;
 
 import guru.sfg.brewery.domain.Customer;
-import guru.sfg.brewery.repositories.CustomerRepository;
+import guru.sfg.brewery.repositories.user.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

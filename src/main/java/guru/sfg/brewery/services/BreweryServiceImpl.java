@@ -17,7 +17,7 @@
 package guru.sfg.brewery.services;
 
 import guru.sfg.brewery.domain.Brewery;
-import guru.sfg.brewery.repositories.BreweryRepository;
+import guru.sfg.brewery.repositories.brewery.BreweryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

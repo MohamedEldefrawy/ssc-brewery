@@ -14,15 +14,20 @@
  *     You should have received a copy of the GNU General Public License
  *     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
-package guru.sfg.brewery.repositories;
+package guru.sfg.brewery.repositories.user;
 
-import guru.sfg.brewery.domain.Brewery;
+import guru.sfg.brewery.domain.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
  * Created by jt on 2019-01-26.
  */
-public interface BreweryRepository extends JpaRepository<Brewery, UUID> {
+public interface CustomerRepository extends JpaRepository<Customer, UUID> {
+    List<Customer> findAllByCustomerNameLike(String customerName);
+
+    Optional<Customer> findAllByCustomerName(String name);
 }

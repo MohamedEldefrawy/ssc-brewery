@@ -17,7 +17,14 @@
 package guru.sfg.brewery.seeder;
 
 import guru.sfg.brewery.domain.*;
-import guru.sfg.brewery.repositories.*;
+import guru.sfg.brewery.repositories.beer.BeerInventoryRepository;
+import guru.sfg.brewery.repositories.beer.BeerOrderRepository;
+import guru.sfg.brewery.repositories.beer.BeerRepository;
+import guru.sfg.brewery.repositories.brewery.BreweryRepository;
+import guru.sfg.brewery.repositories.security.AuthorityRepository;
+import guru.sfg.brewery.repositories.security.RoleRepository;
+import guru.sfg.brewery.repositories.user.CustomerRepository;
+import guru.sfg.brewery.repositories.user.UserRepository;
 import guru.sfg.brewery.web.model.BeerStyleEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -18,7 +18,7 @@
 package guru.sfg.brewery.services;
 
 import guru.sfg.brewery.domain.Beer;
-import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.repositories.beer.BeerRepository;
 import guru.sfg.brewery.web.mappers.BeerMapper;
 import guru.sfg.brewery.web.model.BeerDto;
 import guru.sfg.brewery.web.model.BeerPagedList;

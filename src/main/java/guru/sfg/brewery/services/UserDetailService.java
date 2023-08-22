@@ -1,6 +1,6 @@
 package guru.sfg.brewery.services;
 
-import guru.sfg.brewery.repositories.UserRepository;
+import guru.sfg.brewery.repositories.user.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

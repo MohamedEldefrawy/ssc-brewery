@@ -1,7 +1,7 @@
 package guru.sfg.brewery.web.controllers;
 
 import guru.sfg.brewery.domain.Beer;
-import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.repositories.beer.BeerRepository;
 import guru.sfg.brewery.web.model.BeerStyleEnum;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;

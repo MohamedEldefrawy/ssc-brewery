@@ -1,4 +1,4 @@
-package guru.sfg.brewery.repositories;
+package guru.sfg.brewery.repositories.security;
 
 import guru.sfg.brewery.domain.LoginFailure;
 import guru.sfg.brewery.domain.User;

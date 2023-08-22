@@ -18,7 +18,7 @@
 package guru.sfg.brewery.web.mappers;
 
 import guru.sfg.brewery.domain.BeerOrderLine;
-import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.repositories.beer.BeerRepository;
 import guru.sfg.brewery.web.model.BeerOrderLineDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

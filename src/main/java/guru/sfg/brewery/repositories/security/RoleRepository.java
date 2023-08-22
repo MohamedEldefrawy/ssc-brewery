@@ -1,4 +1,4 @@
-package guru.sfg.brewery.repositories;
+package guru.sfg.brewery.repositories.security;
 
 import guru.sfg.brewery.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;

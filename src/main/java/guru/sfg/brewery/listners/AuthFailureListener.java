@@ -2,8 +2,8 @@ package guru.sfg.brewery.listners;
 
 import guru.sfg.brewery.domain.LoginFailure;
 import guru.sfg.brewery.domain.User;
-import guru.sfg.brewery.repositories.LoginFailureRepository;
-import guru.sfg.brewery.repositories.UserRepository;
+import guru.sfg.brewery.repositories.security.LoginFailureRepository;
+import guru.sfg.brewery.repositories.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;

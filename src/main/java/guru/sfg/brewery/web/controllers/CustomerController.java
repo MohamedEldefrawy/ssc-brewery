@@ -18,7 +18,7 @@
 package guru.sfg.brewery.web.controllers;
 
 import guru.sfg.brewery.domain.Customer;
-import guru.sfg.brewery.repositories.CustomerRepository;
+import guru.sfg.brewery.repositories.user.CustomerRepository;
 import guru.sfg.brewery.web.security.annotations.customer.CreateCustomerPermission;
 import guru.sfg.brewery.web.security.annotations.customer.ReadCustomerPermission;
 import guru.sfg.brewery.web.security.annotations.customer.UpdateCustomerPermission;

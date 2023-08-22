@@ -18,7 +18,7 @@
 package guru.sfg.brewery.web.controllers;
 
 import guru.sfg.brewery.domain.Beer;
-import guru.sfg.brewery.repositories.BeerRepository;
+import guru.sfg.brewery.repositories.beer.BeerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
