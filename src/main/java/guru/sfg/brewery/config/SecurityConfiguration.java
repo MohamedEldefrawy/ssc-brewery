@@ -34,7 +34,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.addFilterBefore(google2faFilter, SessionManagementFilter.class);
 
-        http.authorizeRequests(authorize ->
+        http.cors().and().authorizeRequests(authorize ->
                         authorize.antMatchers("/h2-console/**").permitAll()
                                 .antMatchers("/", "/webjars/**", "/resources/**").permitAll())
                 .authorizeRequests()
