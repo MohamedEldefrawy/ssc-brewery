@@ -57,9 +57,15 @@ public class User implements UserDetails, CredentialsContainer {
     private Timestamp lastModifiedDate;
 
     @Builder.Default
+    @Getter
+    @Setter
     private boolean userGoogle2Fa = false;
+    @Getter
+    @Setter
     private String google2FaSecret;
     @Transient
+    @Getter
+    @Setter
     private boolean google2FaRequired = true;
 
     public Set<GrantedAuthority> getAuthorities() {
