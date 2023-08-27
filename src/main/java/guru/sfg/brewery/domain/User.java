@@ -56,6 +56,12 @@ public class User implements UserDetails, CredentialsContainer {
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
 
+    @Builder.Default
+    private boolean userGoogle2Fa = false;
+    private String google2FaSecret;
+    @Transient
+    private boolean google2FaRequired = true;
+
     public Set<GrantedAuthority> getAuthorities() {
         return this.roles.stream().map(Role::getAuthorities).flatMap(Set::stream).map(authority -> new SimpleGrantedAuthority(authority.getPermission())).collect(Collectors.toSet());
     }
