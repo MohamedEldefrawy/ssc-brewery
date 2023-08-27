@@ -70,7 +70,7 @@ public class UserController {
         return "user/verify2fa";
     }
 
-    @PostMapping
+    @PostMapping("verify2fa")
     public String verifyPostOf2Fa(@RequestParam Integer verifyCode) {
 
         User user = getUser();
